@@ -209,35 +209,6 @@ func (rf *Raft) readPersist(data []byte) {
 	rf.lastApplied = rf.commitIndex
 }
 
-//
-// A service wants to switch to snapshot.  Only do so if Raft hasn't
-// have more recent info since it communicate the snapshot on applyCh.
-//
-func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int, snapshot []byte) bool {
-	DPrintf("CondInstallSnapshot From Leader %v , %v , %v", rf.me, lastIncludedIndex, lastIncludedTerm)
-	//rf.mu.Lock()
-	//defer rf.mu.Unlock()
-	// already compacted
-	if lastIncludedIndex <= rf.lastIncludedIndex {
-		return false
-	}
-	//  less than mine , compact myself later
-	if lastIncludedIndex <= rf.commitIndex {
-		return false
-	}
-	if lastIncludedIndex > rf.lastLogIndex() {
-		rf.log = make([]LogEntry, 0)
-	} else {
-		rf.log = append([]LogEntry(nil), rf.log[lastIncludedIndex-rf.lastIncludedIndex:]...)
-	}
-	rf.lastIncludedIndex, rf.lastIncludedTerm = lastIncludedIndex, lastIncludedTerm
-	rf.commitIndex = lastIncludedIndex
-	rf.lastApplied = rf.commitIndex
-
-	//rf.persister.Save(rf.EncodeState(), snapshot)
-	return true
-}
-
 // the service says it has created a snapshot that has
 // all info up to and including index. this means the
 // service no longer needs the log through (and including)
