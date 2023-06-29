@@ -16,3 +16,5 @@
 <img src="https://github.com/dntbeSris/MIT-6.5840-golabs-2023/assets/16185950/71c90130-9d2a-4498-b815-1df6a19e6498" width="30%" height="30%">
 
 - [x] Lab4: Sharded Key/Value Service
+  - [x] Lab4-1: Shard Controller
+  - [x] Lab4-2: Sharded Key/Value Service
