@@ -28,6 +28,19 @@ type Config struct {
 	Groups map[int][]string // gid -> servers[]
 }
 
+func (cfg *Config) Copy() Config {
+
+	cp := Config{
+		Num:    cfg.Num,
+		Shards: cfg.Shards,
+		Groups: make(map[int][]string),
+	}
+	for k, v := range cfg.Groups {
+		cp.Groups[k] = append([]string{}, v...)
+	}
+	return cp
+}
+
 const (
 	OK             = "OK"
 	ErrTimeout     = "ErrTimeout"

@@ -239,7 +239,13 @@ func (sc *ShardCtrler) applier() {
 				op := msg.Command.(Op)
 				sc.mu.Lock()
 				configNum := 0
-				if lastMessage, ok := sc.LastCommand[op.RequestId]; !ok || lastMessage != op.MessageId {
+				if "Query" == op.Operation {
+					if op.ConfigNum == -1 || op.ConfigNum >= len(sc.configs) {
+						configNum = len(sc.configs) - 1
+					} else {
+						configNum = op.ConfigNum
+					}
+				} else if lastMessage, ok := sc.LastCommand[op.RequestId]; !ok || lastMessage < op.MessageId {
 					switch op.Operation {
 					case "Join":
 						sc.doJoin(op.Servers)
@@ -247,12 +253,6 @@ func (sc *ShardCtrler) applier() {
 						sc.doLeave(op.GIDs)
 					case "Move":
 						sc.doMove(op.Shard, op.GID)
-					case "Query":
-						if op.ConfigNum == -1 || op.ConfigNum >= len(sc.configs) {
-							configNum = len(sc.configs) - 1
-						} else {
-							configNum = op.ConfigNum
-						}
 					default:
 						panic("unknown operation")
 					}

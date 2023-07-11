@@ -39,7 +39,6 @@ func (ck *Clerk) Query(num int) Config {
 	args := &QueryArgs{}
 	// Your code here.
 	args.Num = num
-	args.MessageId = atomic.AddInt64(&ck.sequenceNumber, 1)
 	for {
 		// try each known server.
 		for _, srv := range ck.servers {
