@@ -22,4 +22,8 @@
 
 <img src="https://github.com/dntbeSris/MIT-6.5840-golabs-2023/assets/16185950/d01542d1-df54-4774-bcd1-0d7909126584" width="30%" height="30%">
 
-  - [ ] Lab4-2: Sharded Key/Value Service
+  - [x] Lab4-2: Sharded Key/Value Service
+  
+**experiment result**
+
+<img src="https://github.com/fackee/MIT-6.5840-golabs-2023/assets/16185950/8c6409ad-fe0c-47a8-80f2-0a9ab0a83840" width="30%" height="30%">
